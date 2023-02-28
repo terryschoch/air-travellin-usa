@@ -14,7 +14,7 @@ app = Flask(__name__)
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost:5432/airtravel_db")
+engine = create_engine("postgresql://postgres:postgres@localhost:5432/airtravel_db")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -66,6 +66,21 @@ def maps_page():
 def delays_page():    
     return render_template('delays.html')    
 
+# (Setup piechart/delays.html Route)
+@app.route('/ontime')
+def ontime_page():    
+    return render_template('ontime.html')    
+
+# (Setup piechart/delays.html Route)
+@app.route('/late')
+def late_page():    
+    return render_template('late.html')    
+
+# (Setup piechart/delays.html Route)
+@app.route('/cancelled')
+def cancelled_page():    
+    return render_template('cancelled.html')    
+
 # Step 2  (Setup airports Route)
 @app.route("/api/v1.0/airports")
 def airports():  
@@ -80,7 +95,7 @@ def airlines():
     airlines_dict = [columns_to_dict(row) for row in session.query(Airlines).all()]
     return jsonify(airlines_dict)
 
-# Step 5  (Setup flights_airpors (NYC Flights Paths) Route)
+# Step 4  (Setup flights_airports (NYC Flights Paths) Route)
 @app.route("/api/v1.0/flights_airports")
 def flights_airports():  
     """Return a JSON representation of a dictionary for airports"""    
